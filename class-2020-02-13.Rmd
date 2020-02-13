@@ -1,0 +1,38 @@
+---
+title: "class-feb-13"
+author: "William Haslam"
+date: "13/02/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(readxl)
+library(janitor)
+library(tidyverse)
+library(gt)
+```
+
+
+
+```{r}
+
+x <- read_excel("class_enrollment_summary_by_term_2.13.20.xlsx", skip = 3) %>%
+  clean_names()%>%
+  filter(course_department == "Government") %>%
+  #filter(! is.na(course_name))%>%
+  arrange(desc(total)) %>%
+  slice(1:5) %>%
+  select(course_title, course_name, instructor_full_name, total)%>%
+
+  #Making the table look pretty with 
+  gt() %>%
+    tab_header(
+      title = "Government Department Top 5 Courses, Spring 2020,",
+      subtitle = "Source: FAS Registration Data, accessed Feb 13th 2020"
+    )
+    
+x
+    
+```
+
